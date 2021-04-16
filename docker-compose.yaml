@@ -1,0 +1,39 @@
+version: '3'
+
+services: 
+
+  #PHP Services
+  kpku-app:
+    container_name: kpku-app
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    tty: true
+    ports:
+      - "8080:80"
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html/
+    networks: 
+      - app-network
+
+  #Oracle DB Services
+  kpku-db:
+    container_name: kpku-db
+    image: oracle/database:18.4.0-xe
+    tty: true
+    ports: 
+      - "51521:1521"
+      - "55500:5500"
+    environment: 
+      ORACLE_PWD: 123456
+      ORACLE_CHARACTERSET: AL32UTF8
+    volumes: 
+      - ./database:/opt/oracle/oradata
+    networks: 
+      - app-network
+
+
+networks: 
+  app-network:
+    driver: bridge
