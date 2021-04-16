@@ -26,15 +26,18 @@ RUN mkdir /opt/oracle \
 # Download Oracle 21.1
 RUN wget https://download.oracle.com/otn_software/linux/instantclient/211000/instantclient-basiclite-linux.x64-21.1.0.0.0.zip
 RUN wget https://download.oracle.com/otn_software/linux/instantclient/211000/instantclient-sqlplus-linux.x64-21.1.0.0.0.zip
+RUN wget https://download.oracle.com/otn_software/linux/instantclient/211000/instantclient-sdk-linux.x64-21.1.0.0.0.zip
 
-# Install Oracle Instant Client
+# Install Oracle Instant Client 21.1
 RUN unzip instantclient-basiclite-linux.x64-21.1.0.0.0.zip -d /opt/oracle \
-    && unzip instantclient-sqlplus-linux.x64-21.1.0.0.0.zip -d /opt/oracle/instantclient_21_1 \
+    && unzip instantclient-sqlplus-linux.x64-21.1.0.0.0.zip -d /opt/oracle \
+    && unzip instantclient-sdk-linux.x64-21.1.0.0.0.zip -d /opt/oracle \
     && rm -rf /opt/oracle/*.zip
 
 # Setup Environment Variables
 ENV LD_LIBRARY_PATH /opt/oracle/instantclient_21_1:${LD_LIBRARY_PATH}
-ENV PATH=/opt/oracle/instantclient_21_1:$PATH
+ENV PATH /opt/oracle/instantclient_21_1:$PATH
+ENV ORACLE_HOME instantclient,/opt/oracle/instantclient_21_1
 
 RUN echo 'instantclient,/opt/oracle/instantclient_21_1/' | pecl install oci8 \
     && docker-php-ext enable oci8 \
