@@ -39,8 +39,8 @@ ENV LD_LIBRARY_PATH /opt/oracle/instantclient_21_1:${LD_LIBRARY_PATH}
 ENV PATH /opt/oracle/instantclient_21_1:$PATH
 ENV ORACLE_HOME instantclient,/opt/oracle/instantclient_21_1
 
-RUN echo 'instantclient,/opt/oracle/instantclient_21_1/' | pecl install oci8 \
-    && docker-php-ext enable oci8 \
-    && docker-php-ext-configure pdo-oci --with-pdo-oci=instantclient,/opt/oracle/instantclient_21_1 \
-    & docker-php-ext-install pdo_oci
+RUN echo 'instantclient,/opt/oracle/instantclient_21_1/' | pecl install oci8-2.2.0 \
+    && docker-php-ext-enable oci8 \
+    && docker-php-ext-configure pdo_oci --with-pdo-oci=instantclient,/opt/oracle/instantclient_21_1 \
+    && docker-php-ext-install pdo_oci
 
