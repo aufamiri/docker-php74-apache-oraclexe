@@ -14,7 +14,7 @@ services:
       - "8080:80"
     working_dir: /var/www/html
     volumes:
-      - .:/var/www/html/
+      - ./app:/var/www/html/
     networks: 
       - app-network
 
